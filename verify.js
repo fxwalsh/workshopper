@@ -11,7 +11,6 @@ const wrap    = require('./term-util').wrap
 
 function verify (acmd, bcmd, opts) {
   if (!opts) opts = {}
-
   var a = spawn(process.execPath, acmd)
     , b
     , c

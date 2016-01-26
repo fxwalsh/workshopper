@@ -6,6 +6,7 @@ var data = { calls: [] }
 function writeData (outfile) {
   try {
     fs.writeFileSync(outfile, JSON.stringify(data))
+    console.log("WRITE FILE TO FILE STORE")
   } catch(e) {
     console.error('Internal error!', e)
   }

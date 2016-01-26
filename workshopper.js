@@ -7,6 +7,7 @@ const argv       = require('optimist').argv
     , http       = require('http')
     , ecstatic   = require('ecstatic')
 
+
 const showMenu  = require('./menu')
     , verify    = require('./verify')
     , printText = require('./print-text')
@@ -16,6 +17,8 @@ const showMenu  = require('./menu')
     , green     = require('./term-util').green
     , yellow    = require('./term-util').yellow
     , center    = require('./term-util').center
+    
+var postProgress = require('./post-progress').postProgress
 
 const defaultWidth = 65
 
@@ -50,7 +53,8 @@ function Workshopper (options) {
     , '.config'
     , this.name
   )
-
+  this.studentID    = options.studentID
+  this.progressHost = options.progressHost
   mkdirp.sync(this.dataDir)
 }
 
@@ -303,7 +307,7 @@ Workshopper.prototype._printUsage = function () {
 function onpass (setup, dir, current) {
   console.log(bold(green('# PASS')))
   console.log(green(bold('\nYour solution to ' + current + ' passed!')))
-
+  console.log('sdssd')
   if (setup.hideSolutions)
     return
 
@@ -349,6 +353,15 @@ function onpass (setup, dir, current) {
         })
 
         completed = this.getData('completed') || []
+        
+        var progress = {
+          name:this.studentID,
+          current:current,
+          completed: completed
+        }
+      
+        var host = this.progressHost.split(":")
+        postProgress(progress, host[0],host[1])
 
         remaining = this.problems().length - completed.length
         if (remaining === 0) {
