@@ -5,22 +5,22 @@ var querystring = require('querystring');
 var http = require('http');
 var fs = require('fs');
 
-exports.postProgress = function(progress,host,port) {
+exports.postProgress = function(progress,post_options) {
   // Build the post string from an object
   var post_data =
       JSON.stringify(progress);
 
   // An object of options to indicate where to post to
-  var post_options = {
-      host: host,
-      port: port,
-      path: '/api/progress',
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json',
-          'Content-Length': Buffer.byteLength(post_data)
-      }
-  };
+  post_options.headers['Content-Length'] = Buffer.byteLength(post_data)
+   //   host: host,
+   //   port: port,
+   //   path: '/api/progress',
+    //  method: 'POST',
+   //   headers: {
+   //       'Content-Type': 'application/json',
+   //       'Content-Length': Buffer.byteLength(post_data)
+   //   }
+ // };
  
   // Set up the request
   var post_req = http.request(post_options, function(res,err) {

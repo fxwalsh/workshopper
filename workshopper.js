@@ -54,7 +54,7 @@ function Workshopper (options) {
     , this.name
   )
   this.studentID    = options.studentID
-  this.progressHost = options.progressHost
+  this.progressPostOptions = options.progressPostOptions
   mkdirp.sync(this.dataDir)
 }
 
@@ -307,7 +307,7 @@ Workshopper.prototype._printUsage = function () {
 function onpass (setup, dir, current) {
   console.log(bold(green('# PASS')))
   console.log(green(bold('\nYour solution to ' + current + ' passed!')))
-  console.log('sdssd')
+ 
   if (setup.hideSolutions)
     return
 
@@ -359,9 +359,9 @@ function onpass (setup, dir, current) {
           current:current,
           completed: completed
         }
-      
-        var host = this.progressHost.split(":")
-        postProgress(progress, host[0],host[1])
+    
+        //if progress server configured then post progress   
+        postProgress(progress, this.progressPostOptions)
 
         remaining = this.problems().length - completed.length
         if (remaining === 0) {
